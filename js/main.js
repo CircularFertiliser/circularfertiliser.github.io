@@ -1,72 +1,42 @@
 (function ($) {
-    "use strict";
+        "use strict";
 
-    /*==================================================================
-    [ Validate ]*/
-    var input = $('.validate-input .input100');
-
-    $('.validate-form').on('submit',function(){
-        var check = true;
-
-        for(var i=0; i<input.length; i++) {
-            if(validate(input[i]) == false){
-                showValidate(input[i]);
-                check=false;
-            }
-        }
-
-        // Elements we’ll update
-        var $title    = $('.l1-txt1');   // "Coming Soon"
-        var $subtitle = $('.m2-txt1');   // "Follow us for update now!"
         var $form     = $('#subscribeForm');
+        var $inputs   = $form.find('.validate-input .input100');
+        var $title    = $('.l1-txt1');
+        var $subtitle = $('.m2-txt1');
 
-        // When the form actually submits (validator allowed it)
-        $form.on('submit', function(){
-            // optional: block bots via honeypot
-            if ($form.find('input[name="company"]').val()) return true; // let it post to nowhere
+        $form.on('submit', function (e) {
+            var ok = true;
 
-            // Instantly swap UI (optimistic), while the POST happens in the hidden iframe
-            $form.fadeOut(200, function(){
-                $title.text("Thank you — you're on the list! 🎉");
-                $subtitle.text("We’ll email you when we launch.");
+            for (var i = 0; i < $inputs.length; i++) {
+            if (!validate($inputs[i])) { showValidate($inputs[i]); ok = false; }
+            }
+            if (!ok) { e.preventDefault(); return false; }
+
+            if ($form.find('input[name="company"]').val()) { e.preventDefault(); return false; }
+
+            $form.fadeOut(200, function () {
+            $title.text("Thank you — you're on the list! 🎉");
+            $subtitle.text("We’ll email you when we launch.");
             });
 
-            return check;
+            return true; // let the form post to the hidden iframe
         });
-    });
 
-        $('.validate-form .input100').each(function(){
-            $(this).focus(function(){
-               hideValidate(this);
-            });
-        });
+        $form.on('focus', '.input100', function(){ hideValidate(this); });
 
         function validate (input) {
-            if($(input).attr('type') == 'email' || $(input).attr('name') == 'email') {
-                if($(input).val().trim().match(/^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{1,5}|[0-9]{1,3})(\]?)$/) == null) {
-                    return false;
-                }
-            }
-            else {
-                if($(input).val().trim() == ''){
-                    return false;
-                }
+            var $i = $(input);
+            if ($i.attr('type') === 'email' || $i.attr('name') === 'email') {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test($i.val().trim());
+            } else {
+            return $i.val().trim() !== '';
             }
         }
+        function showValidate(input){ $(input).parent().addClass('alert-validate'); }
+        function hideValidate(input){ $(input).parent().removeClass('alert-validate'); }
 
-        function showValidate(input) {
-            var thisAlert = $(input).parent();
-
-            $(thisAlert).addClass('alert-validate');
-        }
-
-        function hideValidate(input) {
-            var thisAlert = $(input).parent();
-
-            $(thisAlert).removeClass('alert-validate');
-        }
-
-        
         
         /*==================================================================
         [ Simple slide100 ]*/
@@ -91,3 +61,7 @@
         });
 
     })(jQuery);
+
+
+
+
