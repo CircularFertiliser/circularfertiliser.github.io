@@ -1,4 +1,3 @@
-
 (function ($) {
     "use strict";
 
@@ -10,6 +9,10 @@
     var $btn      = $form.find('button[type="submit"]');
     var iframeEl  = document.getElementById('hidden_iframe');
     var submitted = false;
+
+    // Darken the text color for better visibility
+    $title.css('color', '#000'); // Set title text to black
+    $subtitle.css('color', '#333'); // Set subtitle text to a darker gray
 
     // ====== SUBMIT (validate → post to iframe) ======
     $form.on('submit', function (e) {
@@ -69,6 +72,14 @@
     }
     function showValidate(input){ $(input).parent().addClass('alert-validate'); }
     function hideValidate(input){ $(input).parent().removeClass('alert-validate'); }
+
+    // Add event listener for Enter key to submit the form
+    $('#subscribeForm').on('keypress', function(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault(); // Prevent default form submission behavior
+            $(this).submit(); // Trigger form submission
+        }
+    });
 
     /*==================================================================
     [ Simple slide100 ]*/

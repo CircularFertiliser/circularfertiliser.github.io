@@ -10,6 +10,28 @@ Primary use:
 
 /*//////////////////////////////////////////////////////////////////
 [ FONT ]*/
+:root{
+--cfi-bg: #0E1A14; /* Palm Green */
+--cfi-ink: #0B110E; /* Deep ink for dark text on light */
+--cfi-brand: #1E9A6A; /* CFI Green */
+--cfi-brand-2: #7CC27B; /* Leaf Light */
+--cfi-muted: #5C6B63; /* Muted */
+--cfi-on-dark: #F3F9F6; /* Mist White */
+--cfi-ring: rgba(30,154,106,.35);
+}
+
+
+.header-brand{
+display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--cfi-on-dark);
+}
+.header-logo{
+width:36px;height:36px;border-radius:10px;
+background:conic-gradient(from 210deg, var(--cfi-brand), var(--cfi-brand-2));
+display:grid;place-items:center;box-shadow:0 6px 20px rgba(0,0,0,.35);
+}
+.header-title{font:700 18px/1 Inter, sans-serif;letter-spacing:.3px;margin:0}
+.header-tag{font:600 12px/1.2 Inter, sans-serif;color:#cfe6db}
+.header a:focus{outline:2px solid #fff;outline-offset:2px;box-shadow:0 0 0 6px var(--cfi-ring)}
 
 @font-face {
   font-family: PlayfairDisplay-Regular;
@@ -296,6 +318,25 @@ Primary use:
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+}
+
+/* On small screens, make .bg-img1 fixed under text but above background */
+@media (max-width: 576px) {
+  .bg-img1 {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
+    pointer-events: none;
+    /* Gradient mask: fade out opacity from bottom up */
+    -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1), rgba(0,0,0,0));
+    mask-image: linear-gradient(to top, rgba(0,0,0,1), rgba(0,0,0,0));
+  }
+  .r-panel {
+    z-index: 2;
+  }
 }
 
 
