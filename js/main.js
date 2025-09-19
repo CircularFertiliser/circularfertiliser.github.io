@@ -61,7 +61,7 @@
     function validate (input) {
         var $i = $(input);
         if ($i.attr('type') === 'email' || $i.attr('name') === 'email') {
-            console.log('raw email:', $form.find('input[name="email"]').val());
+            // console.log('raw email:', $form.find('input[name="email"]').val());
             return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test($i.val().trim());
         } else {
             return $i.val().trim() !== '';
